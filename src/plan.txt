@@ -1,0 +1,90 @@
+
+//REACT:
+
+>>COMPONENTS
+		Start
+			Menu 						//links to routes
+			Browse 					//main browsing holder
+				SearchBar 		//for categories, keywords, searching
+				ProductsList 	//for displaying product thumbnails <which go to product after click>
+			Register 				//for registering new users
+			Profile 				//for user data, different when logged in. Contains data for products, comments and shopping cart
+			Product					//for product detils
+				Comments			//for comments, different when logged in
+
+
+>>DATA STRUCTURES
+
+		Product
+			name STR
+			price FLOAT
+			startSelling DATE(STR)
+			stock INT
+
+ 			keywords [STR]
+			category STR
+
+			*temp comments [Comment]
+			*temp seller User
+
+		Comment
+			text STR
+			publication DATE(STR)
+
+			*temp author User
+			*temp product Product
+
+		User
+			name STR
+			joindate DATE(STR)
+
+			*temp sold [Product]
+			*temp cart [Product]
+			*temp comments [Comment]
+
+
+>>REST
+
+		GET [Product] search-products <- categories, keywords (keywords include searched term)
+		GET [Product] user-sells-products <- user
+		GET [Product] user-cart-products <- user
+		GET Product comment-product <-comment
+
+		GET [Comment] comments-from-product <- product
+ 		GET [Comment] comments-from-user <- user
+
+		GET User user-from-comment <-comment
+		GET User user-from-product <-product
+
+		GET [category:str] all-categories <- ...
+
+		POST user-login <- username, password
+		POST add-product <-product,user
+		POST add-product-to-cart <- product,user
+		POST buy-cart <-user
+		POST edit-product <-product, newPrice, newKeywords, newCategory
+
+
+>>New plan
+	Classes:
+		RestConnector
+			-get
+			-post
+		MenuConnector
+			-login
+			-logout
+		MainConnector
+			-getProductById
+			-getUserById
+			-searchProducts
+ 			-getAllCategories
+			-getProductComments
+			-getUserComments
+			-getUserSoldProducts
+			-getUserCartProducts
+		Register
+			-register
+//other???			
+	Containers
+		>Global
+			>Menu
